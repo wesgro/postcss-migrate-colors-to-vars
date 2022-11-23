@@ -1,0 +1,32 @@
+{
+  "name": "@wesgro/postcss-migrate-colors-to-vars",
+  "license": "MIT",
+  "type": "module",
+  "module": "./dist/plugin.js",
+  "files": [
+    "./dist"
+  ],
+  "scripts": {
+    "test": "bun test",
+    "prepare": "bun build",
+    "build": "bun typecheck && bun bundle:mjs",
+    "typecheck": "tsc src/plugin.ts --emitDeclarationOnly --esModuleInterop --declaration --outdir ./dist",
+    "bundle:mjs": "bun build src/plugin.ts --outdir ./dist --target node"
+  },
+  "dependencies": {
+    "postcss-value-parser": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.6",
+    "bun": "^0.7.2",
+    "bun-types": "^0.7.2",
+    "colord": "^2.9.3",
+    "postcss": "^8.4.27",
+    "postcss-colormin": "^6.0.0",
+    "prettier": "^3.0.1",
+    "typescript": "^5.1.6"
+  },
+  "peerDependencies": {
+    "postcss": "^8"
+  }
+}
