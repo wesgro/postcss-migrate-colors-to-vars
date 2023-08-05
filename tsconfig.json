@@ -14,7 +14,6 @@
 
     // if TS 5.x+
     "moduleResolution": "bundler",
-    "noEmit": true,
     "allowImportingTsExtensions": true,
     "moduleDetection": "force",
 
@@ -26,5 +25,5 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.{tsx,ts}"]
+  "include": ["src/**/*.ts"]
 }

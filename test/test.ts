@@ -3,7 +3,7 @@ import convert from "../src/plugin";
 import fs from "node:fs";
 import { colors as COLORS } from "./COLORS";
 
-let input = fs.readFileSync("./input-spectrum.css");
+let input = fs.readFileSync("./input.css");
 // input = `h1{color: var(--dig-thing, #eee);background-color: #e3e3e3}`;
 const output = postcss(
   convert({
@@ -18,4 +18,4 @@ const output = postcss(
   })
 ).process(input).css;
 // console.log(output);
-fs.writeFileSync("./spectrum.css", output);
+fs.writeFileSync("./output.css", output);
