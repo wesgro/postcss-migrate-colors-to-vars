@@ -5,8 +5,8 @@ import {
   type ReplacementColors,
 } from "./findClosestColor";
 import { type Node } from "postcss-value-parser";
-
-interface ValueParserNode {
+import {type PluginCreator as PostCssPluginCreator} from "postcss";
+export interface ValueParserNode {
   nodes: Node[];
 }
 
@@ -36,6 +36,9 @@ function isMathFunctionNode(node: Node): boolean {
   return mathFunctions.has(node.value.toLowerCase());
 }
 export type TransformOptions = {
+  /**
+   * Will ignore any nodes that return true from this function
+   */
   ignoreRule?: (node: Node, index: number, parent: ValueParserNode) => boolean;
   replacementColors: ReplacementColors;
 } & ConvertToColorOptions;
@@ -62,10 +65,9 @@ function transform(value: string, options: TransformOptions): string {
   return parsed.toString();
 }
 
-type PluginOptions = TransformOptions;
-type PluginCreator = import("postcss").PluginCreator<PluginOptions>;
+export type PluginOptions = TransformOptions;
 
-const plugin: PluginCreator = (config) => {
+const plugin: PostCssPluginCreator<PluginOptions> = (config) => {
   if (!config || !config.replacementColors) {
     throw new Error("pass a config with replacementColors");
   }
@@ -117,3 +119,5 @@ const plugin: PluginCreator = (config) => {
 plugin.postcss = true;
 
 export default plugin;
+
+export {type ConvertToColorOptions, type ReplacementColors}

@@ -34,4 +34,15 @@ describe('The plugin', () => {
         ).process(input).css;
         expect(output.trim()).toBe(input)
     })
+    it('ignores a higher delta', () => {
+
+        const input = `h1{color: #fff;}`;
+        const output = postcss(
+            plugin({
+                maxDelta: 0.1,
+                replacementColors: COLORS,
+            })
+        ).process(input).css;
+        expect(output.trim()).toBe(input)
+    })
 })
