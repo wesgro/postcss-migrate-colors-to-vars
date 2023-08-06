@@ -4,6 +4,7 @@
     "access": "public"
   },
   "version": "0.0.1",
+  "repository": "https://github.com/wesgro/postcss-migrate-colors-to-vars",
   "license": "MIT",
   "type": "module",
   "module": "./dist/plugin.js",
