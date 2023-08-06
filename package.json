@@ -13,10 +13,11 @@
     "./dist"
   ],
   "scripts": {
-    "test": "bun test",
+    "test": "bun run typecheck && bun test",
     "prepare": "bun run build",
-    "build": "bun typecheck && bun bundle:mjs",
-    "typecheck": "tsc src/plugin.ts --emitDeclarationOnly --esModuleInterop --declaration --outdir ./dist",
+    "build": "bun run build:types && bun run bundle:mjs",
+    "build:types": "tsc src/plugin.ts --emitDeclarationOnly --esModuleInterop --declaration --outdir ./dist",
+    "typecheck": "tsc src/plugin.ts --noEmit --esModuleInterop --skipLibCheck",
     "bundle:mjs": "bun build src/plugin.ts --outdir ./dist --target node"
   },
   "dependencies": {
