@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "0.0.3",
+  "version": "0.1.0",
   "repository": "https://github.com/wesgro/postcss-migrate-colors-to-vars",
   "license": "MIT",
   "type": "commonjs",
@@ -13,7 +13,8 @@
     "./dist"
   ],
   "scripts": {
-    "test": "bun run typecheck && bun test",
+    "test": "bun run typecheck && bun run test:unit",
+    "test:unit": "bun test",
     "prepare": "bun run build",
     "build": "bun run build:types && bun run bundle:cjs",
     "build:types": "tsc src/plugin.ts --emitDeclarationOnly --esModuleInterop --declaration --outdir ./dist",

@@ -3,7 +3,7 @@ import {
   convertToClosestColor,
   type ConvertToColorOptions,
   type ReplacementColors,
-} from "./findClosestColor";
+} from "./convertToClosestColor";
 import { type Node } from "postcss-value-parser";
 import {type PluginCreator as PostCssPluginCreator} from "postcss";
 export interface ValueParserNode {
@@ -37,16 +37,21 @@ function isMathFunctionNode(node: Node): boolean {
 }
 export type TransformOptions = {
   /**
+   * Will be called with the original value and the new value and be appended as a comment to the new value
+   */
+  replacedComment?: (originalValue: string, newValue:string)=>string;
+  /**
    * Will ignore any nodes that return true from this function
    */
-  ignoreRule?: (node: Node, index: number, parent: ValueParserNode) => boolean;
+  shouldIgnoreNode?: (node: Node, index: number, parent: ValueParserNode) => boolean;
   replacementColors: ReplacementColors;
 } & ConvertToColorOptions;
 function transform(value: string, options: TransformOptions): string {
   const parsed = valueParser(value);
 
   walk(parsed, (node: Node, index: number, parent: ValueParserNode) => {
-    if (options?.ignoreRule && options.ignoreRule(node, index, parent)) {
+    const originalValue = node.value;
+    if (options?.shouldIgnoreNode && options.shouldIgnoreNode(node, index, parent)) {
       return false;
     } else if (node.type === "function") {
       if (/^(rgb|hsl)a?$/i.test(node.value)) {
@@ -60,6 +65,24 @@ function transform(value: string, options: TransformOptions): string {
     } else if (node.type === "word") {
       node.value = convertToClosestColor(node.value, options);
     }
+    // no more to do nothing was changed
+    if (node.value === originalValue){
+      return false;
+    }
+    
+    const comment = options.replacedComment && options.replacedComment(originalValue, node.value);
+    if (comment) {
+      parent.nodes.splice(index + 1, 0, {
+        type: "comment",
+        value: comment,
+        sourceEndIndex: comment.length,
+        sourceIndex: 0,
+      });
+    }
+  
+    
+
+    
   });
 
   return parsed.toString();
@@ -67,12 +90,12 @@ function transform(value: string, options: TransformOptions): string {
 
 export type PluginOptions = TransformOptions;
 
-const plugin: PostCssPluginCreator<PluginOptions> = (config) => {
+const migrateColorsToVarsPlugin: PostCssPluginCreator<PluginOptions> = (config) => {
   if (!config || !config.replacementColors) {
     throw new Error("pass a config with replacementColors");
   }
   return {
-    postcssPlugin: "color-migrate",
+    postcssPlugin: "migrate-colors-to-vars",
 
     prepare() {
       const cache = new Map<string, string>();
@@ -116,8 +139,8 @@ const plugin: PostCssPluginCreator<PluginOptions> = (config) => {
   };
 };
 
-plugin.postcss = true;
+migrateColorsToVarsPlugin.postcss = true;
 
-export default plugin;
+export {migrateColorsToVarsPlugin};
 
 export {type ConvertToColorOptions, type ReplacementColors}

@@ -3,13 +3,13 @@
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
-	
-    "workspaceMount": "src=${localWorkspaceFolder},dst=/workspace,type=bind,consistency=cached",
-    "workspaceFolder": "/workspace",
-	
+	"workspaceMount": "src=${localWorkspaceFolder},dst=/workspace,type=bind,consistency=cached",
+	"workspaceFolder": "/workspace",
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [3000, 5000],
-
+	"forwardPorts": [
+		3000,
+		5000
+	],
 	"features": {
 		"common": {
 			"username": "automatic",
@@ -22,55 +22,53 @@
 			"version": "latest",
 			"moby": false,
 			"dockerDashComposeVersion": "v2"
-    	},
+		},
 		"github-cli": "latest"
 	},
-
-	"settings": {
-		"workbench.colorTheme": "Visual Studio 2019 Dark",
-		"terminal.integrated.defaultProfile.linux": "zsh",
-		"editor.formatOnPaste": true,
-
-		"editor.guides.bracketPairs": "active",
-
-		"scm.defaultViewMode": "tree",
-		"debug.internalConsoleOptions": "neverOpen",
-
-		"eslint.validate": [
-			"javascript",
-			"typescript"
-		],
-		"eslint.workingDirectories": [
-			{
-				"directory": "./src",
-				"changeProcessCWD": true
-			}
-		],
-		"liveServer.settings.NoBrowser": true,
-		"liveServer.settings.port": 5000
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"workbench.colorTheme": "Visual Studio 2019 Dark",
+				"terminal.integrated.defaultProfile.linux": "zsh",
+				"editor.formatOnPaste": true,
+				"editor.guides.bracketPairs": "active",
+				"editor.formatOnSave": true,
+				"scm.defaultViewMode": "tree",
+				"debug.internalConsoleOptions": "neverOpen",
+				"eslint.validate": [
+					"javascript",
+					"typescript"
+				],
+				"eslint.workingDirectories": [
+					{
+						"directory": "./src",
+						"changeProcessCWD": true
+					}
+				],
+				"liveServer.settings.NoBrowser": true,
+				"liveServer.settings.port": 5000
+			},
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"github.vscode-pull-request-github",
+				"visualstudioexptteam.vscodeintellicode",
+				"visualstudiotxptteam.vscodeintellicode-completions",
+				"ms-azuretools.vscode-docker",
+				"dbaeumer.vscode-eslint",
+				"christian-kohler.npm-intellisense",
+				"ms-vscode.wordcount",
+				"editorconfig.editorconfig",
+				"streetsidesoftware.code-spell-checker",
+				"redhat.fabric8-analytics",
+				"redhat.vscode-yaml",
+				"bierner.github-markdown-preview",
+				"eamodio.gitlens"
+			],
+		}
 	},
-
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
-		"github.vscode-pull-request-github",
-		"visualstudioexptteam.vscodeintellicode",
-		"visualstudiotxptteam.vscodeintellicode-completions",
-		"ms-azuretools.vscode-docker",
-		"dbaeumer.vscode-eslint",
-		"christian-kohler.npm-intellisense",
-		"ms-vscode.wordcount",
-		"editorconfig.editorconfig",
-		"streetsidesoftware.code-spell-checker",
-		"redhat.fabric8-analytics",
-		"redhat.vscode-yaml",
-		"bierner.github-markdown-preview",
-		"eamodio.gitlens"
-	],
-
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "zsh .devcontainer/post-create.zsh",
 	// "overrideCommand": false,
-
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "node"
 }
