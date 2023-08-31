@@ -88,7 +88,7 @@ function transform(value: string, options: TransformOptions): string {
       } else if (isMathFunctionNode(node)) {
         return false;
       }
-    } else if (node.type === "word" && node.value.length > 4) {
+    } else if (node.type === "word") {
       node.value = convertToClosestColor(node.value, options);
     }
     // no more to do nothing was changed
