@@ -18,7 +18,7 @@ describe('The plugin', () => {
         ).process(input).css;
         expect(output).toContain(`/*hey kids #1a1914 var(--color__selection__base, #1a1914)*/`);
     })
-    it('converts colors to a css var of the closest match', () => {
+    it('converts hex colors to a css var of the closest match', () => {
 
         const input = `h1{color:#1a1914;}`;
         const output = postcss(
@@ -27,6 +27,26 @@ describe('The plugin', () => {
             })
         ).process(input).css;
         expect(output.trim()).toBe(`h1{color:var(--color__selection__base, #1a1914);}`)
+    })
+    it('converts rgba colors to a css var of the closest match', () => {
+
+        const input = `h1{color:rgba(26, 25, 20, 0.5);}`;
+        const output = postcss(
+            plugin({
+                replacementColors: COLORS,
+            })
+        ).process(input).css;
+        expect(output.trim()).toBe(`h1{color:var(--color__selection__base, rgba(26, 25, 20, 0.5));}`)
+    })
+    it('converts hsla colors to a css var of the closest match', () => {
+
+        const input = `h1{color:hsla(50, 13%, 9%, 0.8);}`;
+        const output = postcss(
+            plugin({
+                replacementColors: COLORS,
+            })
+        ).process(input).css;
+        expect(output.trim()).toBe(`h1{color:var(--color__selection__base, hsla(50, 13%, 9%, 0.8));}`)
     })
     it('ignores a match', () => {
 
