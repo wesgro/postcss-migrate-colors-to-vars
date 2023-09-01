@@ -62,7 +62,8 @@
 				"redhat.fabric8-analytics",
 				"redhat.vscode-yaml",
 				"bierner.github-markdown-preview",
-				"eamodio.gitlens"
+				"eamodio.gitlens",
+				"esbenp.prettier-vscode"
 			],
 		}
 	},
